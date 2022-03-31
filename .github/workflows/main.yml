@@ -10,7 +10,7 @@ jobs:
         with:
           MY_NAME: "Mona"
 
-  build:
+
     name: Hello world action2
     runs-on: ubuntu-latest
     steps:
