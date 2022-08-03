@@ -5,10 +5,8 @@
 
 name: Label issues
 on:
-  issues:
-    types:
-      - reopened
-      - opened
+  schedule:
+    - cron: "*/5 * * * *"
 jobs:
   label_issues:
     runs-on: ubuntu-latest
