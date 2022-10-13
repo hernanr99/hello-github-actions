@@ -5,8 +5,9 @@
 
 name: Label issues
 on:
-  schedule:
-    - cron: "*/5 * * * *"
+  push:
+  repository_dispatch:
+  
 jobs:
   label_issues:
     runs-on: ubuntu-latest
