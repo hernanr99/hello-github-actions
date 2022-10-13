@@ -1,6 +1,13 @@
 on:
-  workflow_dispatch:
-  push:
+  workflow_call:
+    outputs:
+      firstword:
+        description: "The first output string"
+        value: "juan cruz"
+      secondword:
+        description: "The second output string"
+        value: "eso pepe"
+  
 
 jobs:
   build:
