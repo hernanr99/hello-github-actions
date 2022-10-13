@@ -4,18 +4,19 @@
 # documentation.
 
 name: Label issues
-on:
-  push:
-  repository_dispatch:
+on: [repository_dispatch]
   
 jobs:
   label_issues:
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
     steps:
-      - name: Label issues
-        uses: andymckay/labeler@e6c4322d0397f3240f0e7e30a33b5c5df2d39e90
-        with:
-          add-labels: "triage"
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Event Information
+        run: |
+          echo "Event '${{ github.event.action }}' received from '${{ github.event.client_payload.repository }}'"
+      - name: PONG - Dispatch response to received PING
+        if: github.event.action == 'ping'
+        run: |
+          curl -X POST https://api.github.com/repos/hernanr99/pruebaGithubActions/dispatches \
+          -H 'Accept: application/vnd.github.everest-preview+json' \
+          -u ${{ secrets.ACCESS_TOKEN }} \
+          --data '{"event_type": "pong", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
