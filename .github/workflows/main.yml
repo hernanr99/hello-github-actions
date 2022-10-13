@@ -1,19 +1,26 @@
+name: Reusable workflow
+
 on:
   workflow_call:
-    inputs:
-      config-path:
-        required: true
-        type: string
-    secrets:
-      envPAT:
-        required: true
+    # Map the workflow outputs to job outputs
+    outputs:
+      firstword:
+        description: "The first output string"
+        value: ${{ jobs.example_job.outputs.output1 }}
+      secondword:
+        description: "The second output string"
+        value: ${{ jobs.example_job.outputs.output2 }}
 
 jobs:
-  reusable_workflow_job:
+  example_job:
+    name: Generate output
     runs-on: ubuntu-latest
-    environment: production
+    # Map the job outputs to step outputs
+    outputs:
+      output1: ${{ steps.step1.outputs.firstword }}
+      output2: ${{ steps.step2.outputs.secondword }}
     steps:
-    - uses: actions/labeler@v4
-      with:
-        repo-token: ${{ secrets.ACCESS_TOKEN }}
-        configuration-path: ${{ inputs.config-path }}
+      - id: step1
+        run: echo "::set-output name=firstword::hello"
+      - id: step2
+        run: echo "::set-output name=secondword::world"
