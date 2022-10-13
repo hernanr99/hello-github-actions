@@ -1,14 +1,19 @@
-name: Deploy
 on:
-  workflow_dispatch:
-  push:
+  workflow_call:
+    inputs:
+      config-path:
+        required: true
+        type: string
+    secrets:
+      envPAT:
+        required: true
 
 jobs:
-  build:
-    name: Run API
+  reusable_workflow_job:
     runs-on: ubuntu-latest
+    environment: production
     steps:
-      - name: Build API
-        run: |
-          echo "Build API Cos coso coso es esteee"
-          sleep 10s
+    - uses: actions/labeler@v4
+      with:
+        repo-token: ${{ secrets.ACCESS_TOKEN }}
+        configuration-path: ${{ inputs.config-path }}
