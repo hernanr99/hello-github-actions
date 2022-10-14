@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@master
       - name: Run tests
         id: run
-        uses: hernanr99/hello-github-actions/.github/main-testing@v1.0.1
+        uses: hernanr99/hello-github-actions/.github/main-testing@master
       - name: PONG - Dispatch response to received PING
         if: github.event.action == 'ping'
         run: |
