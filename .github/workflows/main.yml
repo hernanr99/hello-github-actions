@@ -11,9 +11,11 @@ jobs:
       - name: Event Information
         run: |
           echo "Event '${{ github.event.action }}' received from '${{ github.event.client_payload.repository }}'"
+      - name: Check out repository
+        uses: actions/checkout@master
       - name: Run tests
         id: run
-        uses: hernanr99/hello-github-actions/.github/main-testing@main
+        uses: hernanr99/hello-github-actions/.github/main-testing@master
       - name: PONG - Dispatch response to received PING
         if: github.event.action == 'ping'
         run: |
