@@ -1,23 +1,20 @@
-on:
-  push:
-  repository_dispatch:
 
+
+name: Label issues
+on: 
+  repository_dispatch:
+  
 jobs:
-  hello_world_job:
+  label_issues:
     runs-on: ubuntu-latest
     steps:
-      - name: PING - Dispatch initiating repository event
-        if: github.event.action != 'pong'
+      - name: Event Information
         run: |
-          curl -X POST https://api.github.com/repos/hernanr99/hello-github-actions/dispatches \
+          echo "Event '${{ github.event.action }}' received from '${{ github.event.client_payload.repository }}'"
+      - name: PONG - Dispatch response to received PING
+        if: github.event.action == 'ping'
+        run: |
+          curl -X POST https://api.github.com/repos/hernanr99/pruebaGithubActions/dispatches \
           -H 'Accept: application/vnd.github.everest-preview+json' \
           -u ${{ secrets.ACCESS_TOKEN }} \
-          --data '{"event_type": "ping", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
-      - name: ACK - Acknowledge pong from remote repository
-        if: github.event.action == 'pong'
-        run: |
-          echo "PONG received from '${{ github.event.client_payload.repository }}' con la data deee '${{ github.event.client_payload.data }}'" && \
-          curl -X POST https://api.github.com/repos/hernanr99/hello-github-actions/dispatches \
-          -H 'Accept: application/vnd.github.everest-preview+json' \
-          -u ${{ secrets.ACCESS_TOKEN }} \
-          --data '{"event_type": "ack", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
+          --data '{"event_type": "pong", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'", "data": "Juancruzzz" }}'
